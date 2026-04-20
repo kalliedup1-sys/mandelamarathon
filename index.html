@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>mandelamarathon.com — Domain For Sale</title>
+    <meta name="description" content="mandelamarathon.com — Domain for sale. Memorable and brandable name ideal for South African marathons, charity runs or event branding. Buy now from Utilisoft." />
+    <meta name="keywords" content="mandela marathon, mandelamarathon, domain for sale, domain sale, South Africa, marathon domain, event domain" />
+    <link rel="canonical" href="https://mandelamarathon.com/" />
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="mandelamarathon.com — Domain For Sale" />
+    <meta property="og:description" content="Short, brandable domain available for sale in South Africa — ideal for marathons, charity runs and community events. Contact accounts@utilisoft.co.za." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mandelamarathon.com/" />
+    <meta property="og:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured data: Offer for Product (domain) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "mandelamarathon.com",
+      "description": "Short, brandable domain ideal for South African marathons and charity events. Asking price R3,500.",
+      "url": "https://mandelamarathon.com/",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "ZAR",
+        "price": "3500",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "Utilisoft",
+          "email": "accounts@utilisoft.co.za"
+        }
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="hero">
+      <div class="for-sale">
+        <strong>FOR SALE</strong>
+      </div>
+      <h1 class="logo">mandelamarathon.com</h1>
+  <p class="tag">A memorable, brandable domain — ideal for South African events, charity runs, or marathon branding linked to Nelson Mandela's legacy.</p>
+
+      <div class="price">
+        <div class="label">Buy Now (Firm price)</div>
+  <div class="amount">R3,500 ZAR</div>
+        <div class="note">Price is final — no negotiations.</div>
+      </div>
+
+      <!-- Buy Now removed per request; payments handled via PayFast button below -->
+
+      <!-- PayFast hosted payment button (replace MERCHANT_ID / MERCHANT_KEY / notify/return URLs before publishing) -->
+  <div style="margin-top:1rem;text-align:center;">
+        <form method="post" action="/api/create-payfast" id="payfastForm">
+          <!-- Payment fields submitted to server-side checkout generator -->
+          <input type="hidden" name="return_url" value="/thank-you.html" />
+          <input type="hidden" name="cancel_url" value="/cancel.html" />
+          <input type="hidden" name="notify_url" value="/api/payfast-webhook" />
+
+          <!-- Merchant reference and buyer-facing fields (server will generate m_payment_id) -->
+          <input type="hidden" name="amount" value="3500.00" />
+          <input type="hidden" name="item_name" value="mandelamarathon.com domain" />
+
+          <button class="btn primary payfast" type="submit">
+              <!-- simple payment icon (generic) -->
+              <svg aria-hidden="true" focusable="false" width="20" height="14" viewBox="0 0 20 14" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="2" width="20" height="10" rx="1.5" fill="currentColor" opacity="0.12" />
+                <rect x="2" y="4" width="6" height="4" rx="0.6" fill="currentColor" />
+                <rect x="10" y="4" width="8" height="1.6" rx="0.6" fill="currentColor" />
+                <rect x="10" y="7" width="5" height="1.6" rx="0.6" fill="currentColor" />
+              </svg>
+              <span>Pay with PayFast</span>
+          </button>
+        </form>
+  <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem">Or contact <a href="mailto:accounts@utilisoft.co.za">accounts@utilisoft.co.za</a> for payment details.</p>
+      </div>
+
+  <p class="fineprint">I will respond by email. For secure transfer we recommend using PayFast.</p>
+  <p class="fineprint"><a href="legal.html">Legal / Disclaimer.</a></p>
+    </main>
+
+    <script>
+      // Simplified page: price is firm and sales handled by direct contact.
+      // For safety we intentionally do NOT implement any auto-release of auth codes or automatic bank-processing.
+      // See README.md for secure payment/transfer recommendations (Escrow.com or broker).
+    </script>
+  </body>
+</html>

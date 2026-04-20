@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thank you — MandelaMarathon.com</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="hero">
+    <div class="for-sale">
+      <strong>FOR SALE</strong>
+    </div>
+    <h1 class="logo">mandelamarathon.com</h1>
+    <p class="tag">Payment confirmation</p>
+
+    <div class="price" style="max-width:720px;margin:0 auto 1rem;text-align:left;">
+      <div class="label">Thank you — payment received</div>
+      <div style="margin-top:.5rem;color:var(--muted);" id="message">We received your payment and will verify it shortly. We'll email confirmation and next steps to the address you provided.</div>
+
+      <div style="margin-top:.6rem;color:var(--muted);">After we confirm the payment, we'll provide the domain transfer (auth/EPP) code and instructions for completing the registrar transfer. This code is sensitive — for safety we only provide it after the payment has been verified to prevent fraud. If you paid via PayFast, our server-side webhook will verify PayFast's notification (recommended, automated). For bank transfers we recommend a manual verification step with your bank before releasing the code.</div>
+
+      <div id="details" style="margin-top:1rem; padding:.75rem; background:rgba(255,255,255,0.02); border-radius:6px; display:none; color:var(--white);">
+        <strong>Transaction details</strong>
+        <ul id="detail-list" style="margin:.5rem 0 0 1rem;"></ul>
+      </div>
+      <p style="margin-top:1rem;color:var(--muted);">If you don't receive an email within 24 hours, contact us at <a href="mailto:accounts@utilisoft.co.za">accounts@utilisoft.co.za</a>. We will email the transfer code and step-by-step registrar instructions once payment verification is complete.</p>
+      <p style="margin-top:1.6rem;"><a class="btn" href="/">Back to listing</a></p>
+    </div>
+  </main>
+
+  <script>
+    // Read query string parameters (PayFast may redirect with some params)
+    function parseQuery() {
+      const q = {};
+      const parts = window.location.search.replace(/^\?/, '').split('&').filter(Boolean);
+      parts.forEach(p => {
+        const [k,v] = p.split('=');
+        if(k) q[decodeURIComponent(k)] = decodeURIComponent(v || '');
+      });
+      return q;
+    }
+
+    const params = parseQuery();
+    const keys = Object.keys(params);
+    if(keys.length){
+      const list = document.getElementById('detail-list');
+      keys.forEach(k => {
+        const li = document.createElement('li');
+        li.textContent = `${k}: ${params[k]}`;
+        list.appendChild(li);
+      });
+      document.getElementById('details').style.display = 'block';
+      document.getElementById('message').textContent = 'Payment completed — we have received the gateway response below. We will verify and follow up by email.';
+    }
+  </script>
+</body>
+</html>
