@@ -57,7 +57,14 @@ module.exports = async (req, res) => {
   const merchant_key = process.env.PAYFAST_MERCHANT_KEY;
   const passphrase = process.env.PAYFAST_PASSPHRASE || '';
 
+  // Debug logging for troubleshooting
+  console.log('[create-payfast] merchant_id:', merchant_id ? 'SET' : 'MISSING');
+  console.log('[create-payfast] merchant_key:', merchant_key ? 'SET' : 'MISSING');
+  console.log('[create-payfast] passphrase:', passphrase ? 'SET' : 'EMPTY');
+  console.log('[create-payfast] process.env keys:', Object.keys(process.env).filter(k => k.includes('PAYFAST') || k.includes('EXPECTED')));
+
   if(!merchant_id || !merchant_key){
+    console.error('[create-payfast] ERROR: Missing merchant credentials');
     res.statusCode = 500;
     res.end('Merchant credentials not configured on server.');
     return;
