@@ -64,7 +64,16 @@ module.exports = async (req, res) => {
 
   // Verify notification with PayFast to ensure it's genuine
   try{
-    const verified = await verifyPayFastNotification(payload);
+    // Test-mode: allow skipping verification when TEST_SKIP_PAYFAST_VERIFY is set to '1'
+    const skipVerify = (process.env.TEST_SKIP_PAYFAST_VERIFY === '1');
+    let verified = false;
+    if(skipVerify){
+      console.log('TEST_SKIP_PAYFAST_VERIFY enabled: skipping PayFast validate step.');
+      verified = true;
+    }else{
+      verified = await verifyPayFastNotification(payload);
+    }
+
     if(!verified){
       console.warn('PayFast notification failed verification:', payload);
       res.statusCode = 400;

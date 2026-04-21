@@ -27,19 +27,31 @@ module.exports = async (req, res) => {
   let return_url = body.return_url || (process.env.RETURN_URL || '/thank-you.html');
   let cancel_url = body.cancel_url || (process.env.CANCEL_URL || '/cancel.html');
 
-  // If a relative path is provided (starts with '/'), convert to absolute using request host
-  const proto = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+  // Normalize returned URLs so PayFast always gets absolute URLs.
+  // Handles inputs that are:
+  // - absolute (https://... or http://...) -> left alone
+  // - protocol-relative (//example.com/path) -> prefixed with detected protocol
+  // - root-relative (/path) -> prefixed with protocol://host
+  // - host-only (example.com or localhost:3000/path) -> prefixed with protocol://
+  const proto = (req.headers['x-forwarded-proto'] || req.protocol || 'http').split(',')[0].trim();
   const host = req.headers.host;
-  if(return_url && return_url.startsWith('/') && host){
-    return_url = `${proto}://${host}${return_url}`;
+
+  function toAbsolute(u){
+    if(!u) return u;
+    u = String(u).trim();
+    // already absolute
+    if(/^https?:\/\//i.test(u)) return u;
+    // protocol-relative
+    if(/^\/\//.test(u)) return `${proto}:${u}`;
+    // root-relative
+    if(u.startsWith('/') && host) return `${proto}://${host}${u}`;
+    // host-only (like 'localhost:3000' or 'example.com/path') -> prefix with protocol
+    return `${proto}://${u}`;
   }
-  if(cancel_url && cancel_url.startsWith('/') && host){
-    cancel_url = `${proto}://${host}${cancel_url}`;
-  }
-  let notify_url = body.notify_url || (process.env.NOTIFY_URL || '/api/payfast-webhook');
-  if(notify_url && notify_url.startsWith('/') && host){
-    notify_url = `${proto}://${host}${notify_url}`;
-  }
+
+  return_url = toAbsolute(return_url || (process.env.RETURN_URL || '/thank-you.html'));
+  cancel_url = toAbsolute(cancel_url || (process.env.CANCEL_URL || '/cancel.html'));
+  let notify_url = toAbsolute(body.notify_url || (process.env.NOTIFY_URL || '/api/payfast-webhook'));
 
   const merchant_id = process.env.PAYFAST_MERCHANT_ID;
   const merchant_key = process.env.PAYFAST_MERCHANT_KEY;

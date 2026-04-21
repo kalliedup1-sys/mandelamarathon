@@ -16,8 +16,13 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Serve static files from repo root
-app.use(express.static(path.join(__dirname)));
+// Serve static files.
+// On cPanel deployments we may run the Node app from a folder outside the document root
+// (for security). To support both local and cPanel installs, use PUBLIC_HTML_DIR env var
+// to point to the public folder (for example: /home/username/public_html). If not set
+// we fall back to the repo root (useful for local testing).
+const staticDir = process.env.PUBLIC_HTML_DIR || path.join(__dirname);
+app.use(express.static(staticDir));
 
 // Import handlers
 const createPayfast = require('./api/create-payfast');
