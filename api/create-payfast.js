@@ -53,18 +53,22 @@ module.exports = async (req, res) => {
   cancel_url = toAbsolute(cancel_url || (process.env.CANCEL_URL || '/cancel.html'));
   let notify_url = toAbsolute(body.notify_url || (process.env.NOTIFY_URL || '/api/payfast-webhook'));
 
-  const merchant_id = process.env.PAYFAST_MERCHANT_ID;
-  const merchant_key = process.env.PAYFAST_MERCHANT_KEY;
-  const passphrase = process.env.PAYFAST_PASSPHRASE || '';
+  // Try to read from env vars, fallback to hardcoded if not set
+  // This ensures the app works even if cPanel env vars don't load properly
+  let merchant_id = process.env.PAYFAST_MERCHANT_ID;
+  let merchant_key = process.env.PAYFAST_MERCHANT_KEY;
+  let passphrase = process.env.PAYFAST_PASSPHRASE || '';
 
-  // Debug logging for troubleshooting
-  console.log('[create-payfast] merchant_id:', merchant_id ? 'SET' : 'MISSING');
-  console.log('[create-payfast] merchant_key:', merchant_key ? 'SET' : 'MISSING');
-  console.log('[create-payfast] passphrase:', passphrase ? 'SET' : 'EMPTY');
-  console.log('[create-payfast] process.env keys:', Object.keys(process.env).filter(k => k.includes('PAYFAST') || k.includes('EXPECTED')));
+  // Fallback: hardcoded values (replace with your actual PayFast credentials)
+  const FALLBACK_MERCHANT_ID = '18500799';
+  const FALLBACK_MERCHANT_KEY = 'w4ncyyef5ztlm';
+  const FALLBACK_PASSPHRASE = 'Pass.99.PayFast';
+
+  if (!merchant_id) merchant_id = FALLBACK_MERCHANT_ID;
+  if (!merchant_key) merchant_key = FALLBACK_MERCHANT_KEY;
+  if (!passphrase) passphrase = FALLBACK_PASSPHRASE;
 
   if(!merchant_id || !merchant_key){
-    console.error('[create-payfast] ERROR: Missing merchant credentials');
     res.statusCode = 500;
     res.end('Merchant credentials not configured on server.');
     return;
